@@ -1,0 +1,31 @@
+---
+profile::galera::balancermembers:
+  galera_reader_galera002:
+    listening_service: galera_reader
+    ports:
+      - '3306'
+    ipaddresses:
+      - '192.168.56.103'
+    server_names:
+      - 'ams-galera02'
+    options:
+      - 'check port 9220'
+      - 'inter 12000'
+      - 'rise 3 fall 3'
+  galera_writer_galera002:
+    listening_service: galera_writer
+    ports:
+      - '3306'
+    ipaddresses:
+      - '192.168.56.103'
+    server_names:
+      - 'ams-galera02'
+    options:
+      - 'backup'
+      - 'check port 9220'
+      - 'inter 12000'
+      - 'rise 3 fall 3'
+profile::mysql::override_options:
+  mysqld:
+    report-host: 'ams-galera02'
+    server-id: 1002
