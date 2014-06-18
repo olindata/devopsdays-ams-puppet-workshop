@@ -1,21 +1,9 @@
 class profile::mysql {
-  # TODO: Things that have to be done manually at present:
-  # 1. edit the /etc/mysql/debian.cnf and update the socket location
-  # 2. mv /var/lib/mysql/{mysql,performance_schema} /mysql/data/
-  # 3. aptitude install mariadb-client-5.5
-
   # install mysql client
   include mysql::client
 
-  # the base profile contains logic to choose either profile::apt or profile::yum
-  Class['profile::base'] ~> Package['mysql_client']
-  Class['profile::base'] ~> Package['percona-toolkit']
-  Class['profile::base'] ~> Package['mysql-server']
-
-  Exec['apt_update'] -> Package['mysql_client'] -> Package['mysql-server']
-
   # load the mysql options from hiera and pass them to mysql::server
-  $override_options = hiera_hash('profile::mysql::base::override_options', undef)
+  $override_options = hiera_hash('profile::mysql::override_options', undef)
 
   if $override_options {
     class { 'mysql::server':
@@ -30,7 +18,16 @@ class profile::mysql {
   # make sure percona toolkit and xtrabackup are present
   package { 'percona-toolkit': ensure => latest, }
 
-  package { 'xtrabackup':
+  package { 'percona-xtrabackup':
     ensure  => latest,
+  }
+
+  yumrepo { 'percona':
+    descr    => 'CentOS $releasever - Percona',
+    enabled  => 1,
+    baseurl  => 'http://repo.percona.com/centos/$releasever/os/$basearch/',
+    gpgkey   => 'http://www.percona.com/downloads/RPM-GPG-KEY-percona',
+    gpgcheck => 1,
+    before   => [ Package['mysql-server'], Package['mysql_client'] ],
   }
 }
