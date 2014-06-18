@@ -13,3 +13,9 @@
 [submodule "modules/common/concat"]
 	path = modules/common/concat
 	url = https://github.com/olindata/puppet-concat
+[submodule "modules/common/augeas"]
+	path = modules/common/augeas
+	url = https://github.com/olindata/puppet-augeas
+[submodule "modules/common/xinetd"]
+	path = modules/common/xinetd
+	url = https://github.com/olindata/puppetlabs-xinetd
