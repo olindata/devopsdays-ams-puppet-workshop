@@ -1,0 +1,15 @@
+[submodule "modules/common/galera"]
+	path = modules/common/galera
+	url = https://github.com/olindata/puppet-galera
+[submodule "modules/common/haproxy"]
+	path = modules/common/haproxy
+	url = https://github.com/olindata/puppetlabs-haproxy
+[submodule "modules/common/stdlib"]
+	path = modules/common/stdlib
+	url = https://github.com/olindata/puppetlabs-stdlib
+[submodule "modules/common/mysql"]
+	path = modules/common/mysql
+	url = https://github.com/olindata/puppetlabs-mysql
+[submodule "modules/common/concat"]
+	path = modules/common/concat
+	url = https://github.com/olindata/puppet-concat
